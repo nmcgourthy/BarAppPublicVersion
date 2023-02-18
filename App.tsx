@@ -1,15 +1,17 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import React from 'react';
-import Home from './screens/Home';
-import LogIn from './screens/LogIn'
-import SignUp from './screens/SignUp';
+import React from "react";
+import './Firebase/FirebaseConfig'
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import Home from "./screens/Home";
+import LogIn from "./screens/LogIn";
+import SignUp from "./screens/SignUp";
+import Welcome from "./screens/Welcome";
 
 export default function App() {
+
   const Stack = createNativeStackNavigator();
   
-  
+    
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -32,6 +34,11 @@ export default function App() {
           options = {{headerShown: false}}
         />
 
+        <Stack.Screen
+          name = 'Welcome'
+          component = {Welcome}
+          options = {{headerShown : false}}
+          />
       
       </Stack.Navigator>
     </NavigationContainer>
