@@ -7,6 +7,9 @@ import BackButton from '../components/Buttons/BackButton'
 import { KeyboardAvoidingWrapper } from '../components/KeyboardAvoidingWrapper/KeyboardAvoidingWrapper'
 import { colors } from '../components/colors'
 import MainButton from '../components/Buttons/MainButton'
+import { getAuth , createUserWithEmailAndPassword } from 'firebase/auth'
+
+const auth = getAuth()
 
 const SignUp = ({navigation}) => {
 
@@ -24,6 +27,25 @@ const SignUp = ({navigation}) => {
   const [accessCode, setAccessCode] = useState('')
   const [accessCodeIcon, setAccessCodeIcon] = useState(true)
  
+  async function handleSignUp() {
+  createUserWithEmailAndPassword(auth,email, password)
+  .then(() => {
+    console.log('User account created & signed in!');
+    navigation.navigate('Welcome')
+  })
+  .catch(error => {
+    if (error.code === 'auth/email-already-in-use') {
+      console.log('That email address is already in use!');
+    }
+
+    if (error.code === 'auth/invalid-email') {
+      console.log('That email address is invalid!');
+    }
+
+    console.error(error);
+  })
+  }
+
   useEffect(() => {
     if (password === ''){
       setPasswordIcon(true)} 
@@ -97,7 +119,7 @@ const SignUp = ({navigation}) => {
 
           <StyledTextInput icon = {'account-box'} iconColor = {accessCodeIconShow} placeholder = 'Access Code' onChangeText={(text) => setAccessCode(text)}> </StyledTextInput>
           
-          <MainButton width={100} height = {50} backgroundColor = {colors.accent} paddingTop = {20} > Sign Up !</MainButton>
+          <MainButton width={100} height = {50} backgroundColor = {colors.accent} paddingTop = {20} onPress = {() => {if(accessCode === '525'){handleSignUp()} else {alert('Invalid Access Code')}}}> Sign Up !</MainButton>
 
         </AbsoluteContainer>
       
